@@ -50,8 +50,8 @@ const Item = styled.div`
   gap: 20px;
   cursor: pointer;
   padding: 7px 0px;
-  &:hover{
-  background-color:${({ theme }) => theme.soft};
+  &:hover {
+    background-color: ${({ theme }) => theme.soft};
   }
 `;
 
@@ -91,26 +91,34 @@ const Menu = ({ darkMode, setDarkMode }) => {
             Youtube
           </Logo>
         </Link>
-        <Item>
-          <HomeIcon />
-          Home
-        </Item>
-        <Item>
-          <ExploreOutlinedIcon />
-          Explore
-        </Item>
-        <Item>
-          <SubscriptionsOutlinedIcon />
-          Subscriptions
-        </Item>
+        <Link to={"/"}>
+          <Item>
+            <HomeIcon />
+            Home
+          </Item>
+        </Link>
+        <Link to={"/trends"}>
+          <Item>
+            <ExploreOutlinedIcon />
+            Explore
+          </Item>
+        </Link>
+        <Link to={"/subscriptions"}>
+          <Item>
+            <SubscriptionsOutlinedIcon />
+            Subscriptions
+          </Item>
+        </Link>
         <Hr />
-        <Login>
-          Sign in to like videos, comment, and subscribe.
-          <Button>
-            <AccountCircleOutlinedIcon />
-            Sign In
-          </Button>
-        </Login>
+        <Link to="signin">
+          <Login>
+            Sign in to like videos, comment, and subscribe.
+            <Button>
+              <AccountCircleOutlinedIcon />
+              Sign In
+            </Button>
+          </Login>
+        </Link>
         <Hr />
         <Title>Best of You_tube</Title>
         <Item>

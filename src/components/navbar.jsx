@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   height: 56px;
@@ -56,7 +57,9 @@ const Navbar = () => {
           <Input placeholder="Search..." />
           <SearchOutlinedIcon />
         </SearchContainer>
-        <Button>Sign In</Button>
+        <Link to={"/signin"}>
+          <Button>Sign In</Button>
+        </Link>
       </Wrapper>
     </Container>
   );
