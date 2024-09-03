@@ -17,6 +17,7 @@ import HelpOutlinedIcon from "@mui/icons-material/HelpOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   flex: 1.3;
@@ -82,6 +83,7 @@ const Title = styled.h2`
 `;
 
 const Menu = ({ darkMode, setDarkMode }) => {
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <Container>
       <Wrapper>
@@ -110,15 +112,17 @@ const Menu = ({ darkMode, setDarkMode }) => {
           </Item>
         </Link>
         <Hr />
-        <Link to="signin">
-          <Login>
-            Sign in to like videos, comment, and subscribe.
-            <Button>
-              <AccountCircleOutlinedIcon />
-              Sign In
-            </Button>
-          </Login>
-        </Link>
+        {!currentUser && (
+          <Link to="signin">
+            <Login>
+              Sign in to like videos, comment, and subscribe.
+              <Button>
+                <AccountCircleOutlinedIcon />
+                Sign In
+              </Button>
+            </Login>
+          </Link>
+        )}
         <Hr />
         <Title>Best of You_tube</Title>
         <Item>

@@ -11,12 +11,12 @@ const Container = styled.div`
 
 const Home = ({ type }) => {
   const [videos, setVideos] = useState([]);
-  
+
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await axios.get(`http://localhost:3001/api/videos/${type}`);
-        if (res.ok) {
+        const res = await axios.get(`/videos/${type}`);
+        if (res.data) {
           setVideos(res.data);
         }
       } catch (error) {

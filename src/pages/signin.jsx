@@ -1,6 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../firebase";
 
 const Container = styled.div`
   display: flex;
@@ -62,33 +66,61 @@ const SignIn = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
+    dispatch(loginStart());
     try {
-      const res = await axios.post("http://localhost:3001/auth/signin", {
+      const res = await axios.post("/auth/signin", {
         name,
         password,
       });
-      if (res.ok) {
+
+      if (res.data) {
         console.log(res.data);
+        dispatch(loginSuccess(res.data));
       }
+      setName("");
+      setEmail("");
+      setPassword("");
     } catch (error) {
       console.log(error);
+      dispatch(loginFailure());
     }
   };
 
   const handleRegister = async () => {
     try {
-      const res = await axios.post("http://localhost:3001/auth/signup", {
+      const res = await axios.post("/auth/signup", {
         name,
         email,
         password,
       });
-      if (res.ok) {
+      if (res.data) {
         console.log(res.data);
       }
+      setName("");
+      setEmail("");
+      setPassword("");
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const signInWithGoogle = async () => {
+    dispatch(loginStart());
+    try {
+      let result = await signInWithPopup(auth, provider);
+      let res = await axios.post(`/auth/google`, {
+        name: result.user.displayName,
+        email: result.user.email,
+        img: result.user.photoURL,
+      });
+      if (res.data) {
+        dispatch(loginSuccess(res.data));
+      }
+    } catch (error) {
+      dispatch(loginFailure());
     }
   };
 
@@ -99,6 +131,7 @@ const SignIn = () => {
         <SubTitle>to continue to myYoutube</SubTitle>
         <Input
           placeholder="username"
+          type="input"
           onChange={(e) => setName(e.target.value)}
         />
         <Input
@@ -107,6 +140,8 @@ const SignIn = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button onClick={handleLogin}>Sign in</Button>
+        <Title>Or</Title>
+        <Button onClick={signInWithGoogle}>Sign in with Google</Button>
         <Title>Or</Title>
         <Input
           placeholder="username"
